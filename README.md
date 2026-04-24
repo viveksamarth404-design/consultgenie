@@ -377,12 +377,10 @@ restarts from zero...
 
 ## 🎥 Demo Video
 
-📹 Loom walkthrough: *[Link to be added]*
+📹 Loom walkthrough: https://www.loom.com/share/3f3eb1f2e07141a98be6c76385b58ad1
 
 The video covers:
 - Problem statement and motivation
-- Architecture walkthrough
-- Live code explanation
 - End-to-end demo with a real business problem
 - LLM-as-Judge evaluation in action
 
