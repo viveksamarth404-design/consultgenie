@@ -61,57 +61,33 @@ A separate **LLM-as-Judge** then evaluates the report on structure, logical reas
 
 ---
 ## 🏗 System Architecture
-+--------------------------------------------------+
-|                   Streamlit UI                   |
-|       Business problem + industry sector         |
-+--------------------------------------------------+
-|
-v
-+--------------------------------------------------+
-|         Gemini — Problem Decomposition           |
-|  Understands context · Outputs QUERY: lines      |
-|  Decides which frameworks to apply               |
-+--------------------------------------------------+
-|
-+------------+------------+
-|                         |
-QUERY: found               No QUERY:
-|                         |
-v                         |
-+---------------------+              |
-|   Tavily Search API |              |
-|  Best practices     |              |
-|  Expert frameworks  |              |
-|  Precedent cases    |              |
-+---------------------+              |
-|                         |
-+------------+------------+
-|
-v
-+--------------------------------------------------+
-|              Framework Analysis                  |
-|     SWOT · Root Cause Analysis · Gap Analysis    |
-+--------------------------------------------------+
-|
-v
-+--------------------------------------------------+
-|          Gemini — Report Generation              |
-|  Problem Framing · Root Cause Analysis           |
-|  Key Findings · Recommendations                  |
-+--------------------------------------------------+
-|
-v
-+--------------------------------------------------+
-|            Gemini — LLM-as-Judge                 |
-|  Structure · Reasoning · Relevance · Action      |
-|  Overall Score (0-10) + Feedback                 |
-+--------------------------------------------------+
-|
-v
-+--------------------------------------------------+
-|           Final Output — Streamlit UI            |
-|    Consulting Report + Score + Judge Feedback    |
-+--------------------------------------------------+
+
+```mermaid
+flowchart TD
+    A[🖥️ Streamlit UI\nBusiness problem + industry sector] --> B
+
+    B[🤖 Gemini — Problem Decomposition\nUnderstands context · Outputs QUERY lines\nDecides which frameworks to apply] --> C{Search\nNeeded?}
+
+    C -- YES --> D[🔍 Tavily Search API\nBest practices · Expert frameworks\nPrecedent cases]
+    C -- NO --> E
+
+    D --> E[📊 Framework Analysis\nSWOT · Root Cause Analysis · Gap Analysis]
+
+    E --> F[📝 Gemini — Report Generation\nProblem Framing · Root Cause Analysis\nKey Findings · Recommendations]
+
+    F --> G[⚖️ Gemini — LLM-as-Judge\nStructure · Reasoning · Relevance · Action\nOverall Score 0–10 + Feedback]
+
+    G --> H[✅ Final Output — Streamlit UI\nConsulting Report + Score + Judge Feedback]
+
+    style A fill:#0d9488,color:#fff
+    style H fill:#0d9488,color:#fff
+    style B fill:#5046a0,color:#fff
+    style E fill:#5046a0,color:#fff
+    style F fill:#5046a0,color:#fff
+    style D fill:#9a3412,color:#fff
+    style G fill:#b45309,color:#fff
+    style C fill:#1e1e3a,color:#fff
+```
 ## 🤖 Why an Agentic Approach
 
 | Requirement | Why a Single Prompt Fails | Why the Agent Works |
