@@ -60,7 +60,58 @@ The pipeline involves three coordinated agents:
 A separate **LLM-as-Judge** then evaluates the report on structure, logical reasoning, and actionability — scoring each dimension independently before the output is shown to the user.
 
 ---
-
+## 🏗 System Architecture
++--------------------------------------------------+
+|                   Streamlit UI                   |
+|       Business problem + industry sector         |
++--------------------------------------------------+
+|
+v
++--------------------------------------------------+
+|         Gemini — Problem Decomposition           |
+|  Understands context · Outputs QUERY: lines      |
+|  Decides which frameworks to apply               |
++--------------------------------------------------+
+|
++------------+------------+
+|                         |
+QUERY: found               No QUERY:
+|                         |
+v                         |
++---------------------+              |
+|   Tavily Search API |              |
+|  Best practices     |              |
+|  Expert frameworks  |              |
+|  Precedent cases    |              |
++---------------------+              |
+|                         |
++------------+------------+
+|
+v
++--------------------------------------------------+
+|              Framework Analysis                  |
+|     SWOT · Root Cause Analysis · Gap Analysis    |
++--------------------------------------------------+
+|
+v
++--------------------------------------------------+
+|          Gemini — Report Generation              |
+|  Problem Framing · Root Cause Analysis           |
+|  Key Findings · Recommendations                  |
++--------------------------------------------------+
+|
+v
++--------------------------------------------------+
+|            Gemini — LLM-as-Judge                 |
+|  Structure · Reasoning · Relevance · Action      |
+|  Overall Score (0-10) + Feedback                 |
++--------------------------------------------------+
+|
+v
++--------------------------------------------------+
+|           Final Output — Streamlit UI            |
+|    Consulting Report + Score + Judge Feedback    |
++--------------------------------------------------+
 ## 🤖 Why an Agentic Approach
 
 | Requirement | Why a Single Prompt Fails | Why the Agent Works |
